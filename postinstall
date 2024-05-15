@@ -588,15 +588,15 @@ EOF
 }
 
 create_swap_pool(){
-    log "Configuring swap storage"
-    if ! pvesm status | grep swap > /dev/null; then
-        if ! zfs list rpool/swap > /dev/null 2>&1 ; then
-            zfs create -o com.sun:auto-snapshot:frequent=false -o com.sun:auto-snapshot:hourly=false -o com.sun:auto-snapshot:daily=false -o com.sun:auto-snapshot:weekly=false -o com.sun:auto-snapshot:monthly=false rpool/swap
+    log "Configuring shared storage"
+    if ! pvesm status | grep shared > /dev/null; then
+        if ! zfs list rpool/shared > /dev/null 2>&1 ; then
+            zfs create -o com.sun:auto-snapshot:frequent=false -o com.sun:auto-snapshot:hourly=false -o com.sun:auto-snapshot:daily=false -o com.sun:auto-snapshot:weekly=false -o com.sun:auto-snapshot:monthly=false rpool/shared
         else
-            zfs set com.sun:auto-snapshot:frequent=false com.sun:auto-snapshot:hourly=false com.sun:auto-snapshot:daily=false com.sun:auto-snapshot:weekly=false com.sun:auto-snapshot:monthly=false rpool/swap
-            zfs inherit com.sun:auto-snapshot rpool/swap
+            zfs set com.sun:auto-snapshot:frequent=false com.sun:auto-snapshot:hourly=false com.sun:auto-snapshot:daily=false com.sun:auto-snapshot:weekly=false com.sun:auto-snapshot:monthly=false rpool/shared
+            zfs inherit com.sun:auto-snapshot rpool/shared
         fi
-        pvesm add zfspool swap --content images,rootdir --pool rpool/swap
+        pvesm add zfspool shared --content images,rootdir --pool rpool/shared
     fi
 }
 
